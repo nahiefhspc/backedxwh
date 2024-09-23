@@ -7,11 +7,11 @@ import requests
 import asyncio
 from datetime import datetime, timedelta
 from flask import Flask
-from threading import Thread
+import os
 
 # Telegram Bot Token and Owner ID
-BOT_TOKEN = '7106709057:AAEDzg7JSl0lTC-Nc5kcyKen6gYWLiywMdM'
-OWNER_ID = 7137002799  # Replace with the owner ID
+BOT_TOKEN = os.getenv('BOT_TOKEN', 'YOUR_BOT_TOKEN')
+OWNER_ID = os.getenv('OWNER_ID', 'YOUR_OWNER_ID')
 
 # Channel details (Make sure bot is an admin in these channels)
 channels = {
@@ -88,7 +88,7 @@ async def revoke_invite_link(bot, chat_id, invite_link):
 async def broadcast(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
     user_id = update.message.from_user.id
 
-    if user_id != OWNER_ID:
+    if user_id != int(OWNER_ID):
         await update.message.reply_text("You're not authorized to use this command.")
         return
 
@@ -110,19 +110,23 @@ async def broadcast(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
 def index():
     return "Bot is running!"
 
-# Run the Telegram bot
-def run_telegram_bot():
+async def run_telegram_bot():
+    """Run the telegram bot."""
     application = ApplicationBuilder().token(BOT_TOKEN).build()
 
     application.add_handler(CommandHandler("start", start))
     application.add_handler(CallbackQueryHandler(button))
     application.add_handler(CommandHandler("broadcast", broadcast))
 
-    application.run_polling()
+    await application.start()
+    await application.updater.start_polling()
 
 if __name__ == '__main__':
-    # Start the Telegram bot in a separate thread
-    Thread(target=run_telegram_bot).start()
-    
+    # Run Flask app in one process and the Telegram bot in another
+    loop = asyncio.get_event_loop()
+
+    # Run the telegram bot asynchronously
+    loop.create_task(run_telegram_bot())
+
     # Run Flask app
     app.run(host='0.0.0.0', port=8080)
