@@ -10,8 +10,8 @@ from flask import Flask
 import os
 
 # Telegram Bot Token and Owner ID
-BOT_TOKEN = os.getenv('BOT_TOKEN', 'YOUR_BOT_TOKEN')
-OWNER_ID = os.getenv('OWNER_ID', 'YOUR_OWNER_ID')
+BOT_TOKEN = os.getenv('7106709057:AAEDzg7JSl0lTC-Nc5kcyKen6gYWLiywMdM', 'YOUR_BOT_TOKEN')
+OWNER_ID = os.getenv('7137002799', 'YOUR_OWNER_ID')
 
 # Channel details (Make sure bot is an admin in these channels)
 channels = {
