@@ -30,7 +30,7 @@ app = Flask(__name__)
 async def start(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
     # Image URL
     image_url = "https://i.ibb.co/Dk35rBs/66ef6566.jpg"  # Replace with your image URL
-    caption = "Welcome! Please choose a channel below to get a temporary invite link (valid for 10 seconds)."
+    caption = "*:..｡o○𝗪𝗲𝗹𝗰𝗼𝗺𝗲 𝗯𝘂𝗱𝗱𝘆 🥰○o｡..:*\n\n𝐓𝐡𝐚𝐧𝐤𝐬 𝐟𝐨𝐫 𝐜𝐨𝐦𝐢𝐧𝐠 𝐡𝐞𝐫𝐞 🙏🙏\n\n𝐍𝐨𝐰 𝐂𝐥𝐢𝐜𝐤 𝐨𝐧 𝐛𝐞𝐥𝐨𝐰 𝐛𝐮𝐭𝐭𝐨𝐧𝐬 𝐭𝐨 𝐣𝐨𝐢𝐧 𝐨𝐧 𝐜𝐡𝐚𝐧𝐧𝐞𝐥 𝐰𝐡𝐚𝐭 𝐲𝐨𝐮 𝐰𝐚𝐧𝐭 ✨✨"
 
     # Prepare buttons with channels
     keyboard = [
@@ -60,7 +60,7 @@ async def button(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
             chat_id=query.data, expire_date=expire_time, member_limit=None
         )
 
-        await query.message.reply_text(f"Here is your temporary invite link: {invite_link.invite_link}\nNote: This link will expire in 10 seconds.")
+        await query.message.reply_text(f"𝐇𝐞𝐲 ,\n𝕃𝕚𝕟𝕜 𝕥𝕠 𝕛𝕠𝕚𝕟 𝕠𝕗 𝕪𝕠𝕦𝕣 𝕣𝕖𝕢𝕦𝕖𝕤𝕥 𝕔𝕙𝕒𝕟𝕟𝕖𝕝 👇👇\n\n{invite_link.invite_link}\n\n𝐍𝐎𝐓𝐄 »»𝗧𝗵𝗶𝘀 𝗹𝗶𝗻𝗸 𝗮𝘂𝘁𝗼𝗺𝗮𝘁𝗶𝗰 𝗥𝗲𝘃𝗼𝗸𝗲𝗱 𝗶𝗻 𝟮𝟬𝘀𝗲𝗰𝗼𝗻𝗱𝘀\n𝗦𝗼 𝗷𝗼𝗶𝗻 𝗳𝗮𝘀𝘁 𝗼𝗿 𝗿𝗲𝗾𝘂𝗲𝘀𝘁 𝗮𝗴𝗮𝗶𝗻 𝗳𝗼𝗿 𝗻𝗲𝘄 𝗹𝗶𝗻𝗸.")
         
         # Schedule revocation after 10 seconds
         asyncio.create_task(revoke_invite_link(context.bot, query.data, invite_link.invite_link))
@@ -70,7 +70,7 @@ async def button(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
 
 async def revoke_invite_link(bot, chat_id, invite_link):
     """Revoke the invite link after 10 seconds."""
-    await asyncio.sleep(10)
+    await asyncio.sleep(20)
     try:
         await bot.revoke_chat_invite_link(chat_id=chat_id, invite_link=invite_link)
         logger.info(f"Invite link {invite_link} has been revoked.")
