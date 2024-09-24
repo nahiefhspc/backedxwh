@@ -9,12 +9,12 @@ from threading import Thread
 from datetime import datetime, timedelta
 
 # Telegram Bot Token
-BOT_TOKEN = '7106709057:AAEDzg7JSl0lTC-Nc5kcyKen6gYWLiywMdM'
+BOT_TOKEN = '7541631439:AAGv0y0Y2O4srSs-tpo77tTKzMSKR-IFU7U'
 
 # Channel details (Make sure bot is an admin in these channels)
 channels = {
     "𝗖𝗹𝗮𝘀𝘀 𝟭𝟭𝘁𝗵|𝗟𝗶𝘃𝗲 🔴": "-1002175574964",
-    "𝗖𝗹𝗮𝘀𝘀 𝟭𝟮𝘁𝗵|𝗟𝗶𝘃𝗲 🔴": "-1002225506571",
+    "𝗖𝗹𝗮𝘀𝘀 𝟭𝟮𝘁𝗵|𝗟𝗶𝘃𝗲 🔴": "-1002408234754",
     "𝗖𝗹𝗮𝘀𝘀 𝟭𝟯𝘁𝗵|𝗟𝗶𝘃𝗲 🔴": "-1002225506571"
 }
 
@@ -62,7 +62,7 @@ async def button(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
             chat_id=query.data, expire_date=expire_time, member_limit=None
         )
 
-        await query.message.reply_text(f"𝐇𝐞𝐲 ,\n𝕃𝕚𝕟𝕜 𝕥𝕠 𝕛𝕠𝕚𝕟 𝕠𝕗 𝕪𝕠𝕦𝕣 𝕣𝕖𝕢𝕦𝕖𝕤𝕥 𝕔𝕙𝕒𝕟𝕟𝕖𝕝 👇👇\n\n{invite_link.invite_link}\n\n𝐍𝐎𝐓𝐄 »»𝗧𝗵𝗶𝘀 𝗹𝗶𝗻𝗸 𝗮𝘂𝘁𝗼𝗺𝗮𝘁𝗶𝗰 𝗥𝗲𝘃𝗼𝗸𝗲𝗱 𝗶𝗻 𝟮𝟬𝘀𝗲𝗰𝗼𝗻𝗱𝘀\n𝗦𝗼 𝗷𝗼𝗶𝗻 𝗳𝗮𝘀𝘁 𝗼𝗿 𝗿𝗲𝗾𝘂𝗲𝘀𝘁 𝗮𝗴𝗮𝗶𝗻 𝗳𝗼𝗿 𝗻𝗲𝘄 𝗹𝗶𝗻𝗸.")
+        await query.message.reply_text(f"𝐇𝐞𝐲 ,\n𝕃𝕚𝕟𝕜 𝕥𝕠 𝕛𝕠𝕚𝕟 𝕠𝕗 𝕪𝕠𝕦𝕣 𝕣𝕖𝕢𝕦𝕖𝕤𝕥 𝕔𝕙𝕒𝕟𝕟𝕖𝕝 👇👇\n\n{invite_link.invite_link}\n\n𝐍𝐎𝐓𝐄 »»𝗧𝗵𝗶𝘀 𝗹𝗶𝗻𝗸 𝗮𝘂𝘁𝗼𝗺𝗮𝘁𝗶𝗰 𝗥𝗲𝘃𝗼𝗸𝗲𝗱 𝗶𝗻 𝟭𝟬𝘀𝗲𝗰𝗼𝗻𝗱𝘀\n𝗦𝗼 𝗷𝗼𝗶𝗻 𝗳𝗮𝘀𝘁 𝗼𝗿 𝗿𝗲𝗾𝘂𝗲𝘀𝘁 𝗮𝗴𝗮𝗶𝗻 𝗳𝗼𝗿 𝗻𝗲𝘄 𝗹𝗶𝗻𝗸.")
         
         # Schedule revocation after 10 seconds
         asyncio.create_task(revoke_invite_link(context.bot, query.data, invite_link.invite_link))
