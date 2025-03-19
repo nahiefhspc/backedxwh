@@ -1,14 +1,13 @@
 import logging
 from telegram import Update, InlineKeyboardButton, InlineKeyboardMarkup
 from telegram.ext import ApplicationBuilder, CommandHandler, CallbackQueryHandler, ContextTypes
-import requests
-import asyncio
+from aiohttp import ClientSession
 from flask import Flask
 from threading import Thread
 from datetime import datetime, timedelta
 import json
 import os
-from aiohttp import ClientSession  # For faster HTTP requests
+import asyncio
 
 # Telegram Bot Token
 BOT_TOKEN = '6811502626:AAG9xT3ZQUmg6CrdIPvQ0kCRJ3W5QL-fuZs'
@@ -39,11 +38,8 @@ logging.basicConfig(
 )
 logger = logging.getLogger(__name__)
 
-# Flask app for webhook
+# Flask app for webhook (if needed)
 app = Flask(__name__)
-
-# Global aiohttp session for faster requests
-session = None
 
 async def start(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
     image_url = "https://i.ibb.co/D98tcdk/66f16ac7.jpg"
@@ -56,16 +52,16 @@ async def start(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
     keyboard = [[InlineKeyboardButton(name, callback_data=channel)] for name, channel in channels.items()]
     reply_markup = InlineKeyboardMarkup(keyboard)
 
-    # Faster image fetching with aiohttp
-    async with session.get(image_url) as response:
-        image_data = await response.read()
+    async with ClientSession() as session:
+        async with session.get(image_url) as response:
+            image_data = await response.read()
 
     await update.message.reply_photo(
         photo=image_data,
         caption=caption,
         parse_mode='HTML',
         reply_markup=reply_markup,
-        protect_content=True  # Content protection enabled
+        protect_content=True
     )
 
 async def add_channel(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
@@ -110,7 +106,7 @@ async def button(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
     await query.answer()
 
     try:
-        expire_time = datetime.now() + timedelta(seconds=20)
+        expire_time = datetime.now() + timedelta(seconds=10)
         invite_link = await context.bot.create_chat_invite_link(
             chat_id=query.data, 
             expire_date=expire_time, 
@@ -120,22 +116,21 @@ async def button(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
         message = await query.message.reply_text(
             f"<b>𝐇𝐞𝐲,</b>\n"
             f"𝕃𝕚𝕟𝕜 𝕥𝕠 𝕛𝕠𝕚𝕟 𝕠𝕗 𝕪𝕠𝕦𝕣 𝕣𝕖𝕢𝕦𝕖𝕤𝕥 𝕔𝕙𝕒𝕟𝕟𝕖𝕝 👇👇\n\n"
-            f"<a href='{invite_link.invite_link}'>𝗖𝗟𝗜𝗖𝗞 𝗧𝗢 𝗝𝗢𝗜𝗡 😈</a>\n\n"
-            f"<i>𝐍𝐎𝐓𝐄 »» This link auto revoked in 20 seconds\n"
+            f"<a href='{invite_link.invite_link}'>Join Now</a>\n\n"
+            f"<i>𝐍𝐎𝐓𝐄 »» This link auto revoked in 10 seconds\n"
             f"So join fast or request again.</i>",
             parse_mode='HTML',
             protect_content=True,
             disable_web_page_preview=True
         )
         
-        # Schedule message deletion and link revocation
         asyncio.create_task(handle_link_cleanup(context.bot, query.data, invite_link.invite_link, message))
 
     except Exception as e:
         await query.message.reply_text(f"Failed to generate link: {e}", parse_mode='HTML')
 
 async def handle_link_cleanup(bot, chat_id, invite_link, message):
-    await asyncio.sleep(30)  # Wait 30 seconds
+    await asyncio.sleep(30)
     try:
         await bot.delete_message(chat_id=message.chat_id, message_id=message.message_id)
         await bot.revoke_chat_invite_link(chat_id=chat_id, invite_link=invite_link)
@@ -149,16 +144,23 @@ async def error_handler(update: object, context: ContextTypes.DEFAULT_TYPE) -> N
 def run_flask():
     app.run(host="0.0.0.0", port=8080)
 
-async def run_telegram_bot():
-    global session
-    async with ClientSession() as session:  # Initialize aiohttp session
-        application = ApplicationBuilder().token(BOT_TOKEN).build()
-        application.add_handler(CommandHandler("start", start))
-        application.add_handler(CommandHandler("add", add_channel))
-        application.add_handler(CallbackQueryHandler(button))
-        application.add_error_handler(error_handler)
-        await application.run_polling()
+def run_telegram_bot():
+    loop = asyncio.new_event_loop()
+    asyncio.set_event_loop(loop)
+    
+    application = ApplicationBuilder().token(BOT_TOKEN).build()
+    application.add_handler(CommandHandler("start", start))
+    application.add_handler(CommandHandler("add", add_channel))
+    application.add_handler(CallbackQueryHandler(button))
+    application.add_error_handler(error_handler)
+    
+    loop.run_until_complete(application.run_polling())
 
 if __name__ == "__main__":
-    Thread(target=run_flask).start()
-    asyncio.run(run_telegram_bot())
+    # Start Flask in a separate thread
+    flask_thread = Thread(target=run_flask)
+    flask_thread.daemon = True  # Allows program to exit even if Flask is running
+    flask_thread.start()
+    
+    # Run Telegram bot in the main thread
+    run_telegram_bot()
