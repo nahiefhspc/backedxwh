@@ -42,7 +42,7 @@ logger = logging.getLogger(__name__)
 app = Flask(__name__)
 
 async def start(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
-    image_url = "https://i.ibb.co/D98tcdk/66f16ac7.jpg"
+    image_url = "https://i.ibb.co/nKY9gtx/x.jpg"
     caption = "<b>:..｡o○𝗪𝗲𝗹𝗰𝗼𝗺𝗲 𝗯𝘂𝗱𝗱𝘆 🥰○o｡..:</b>\n\n" \
               "<b>𝐇𝐞𝐫𝐞 𝐲𝐨𝐮 𝐠𝐞𝐭 𝐎𝐮𝐫 𝐀𝐥𝐥 𝐂𝐡𝐚𝐧𝐧𝐞𝐥𝐬 𝐋𝐢𝐧𝐤𝐬 💀</b>\n\n" \
               "<b>How to use ? 🤔</b>\n" \
