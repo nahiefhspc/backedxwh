@@ -47,11 +47,11 @@ async def start(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
               "<b>𝐇𝐞𝐫𝐞 𝐲𝐨𝐮 𝐠𝐞𝐭 𝐎𝐮𝐫 𝐀𝐥𝐥 𝐂𝐡𝐚𝐧𝐧𝐞𝐥𝐬 𝐋𝐢𝐧𝐤𝐬 💀</b>\n\n" \
               "<b>How to use ? 🤔</b>\n" \
               "<i>-> Click on Below Channel Button in Which you want to join then you Get Message of Channel link Join through it 😊</i>\n\n" \
-              "<b>❀ 𝐀𝐧𝐲 𝐏𝐫𝐨𝐛𝐥𝐞𝐦 𝐂𝐨𝐧𝐭𝐚𝐜𝐭 𝐔𝐬 🥹</b>\n"
-              "<b>◇ DARK NIGHT - @ContactXBatman_bot</b>\n"
-              "<b>☆ JACK SPARROW - @Sparrowcosmos_bot</b>\n"
-              "<b>♛ HACKHEIST - @HACKHEISTBOT</b>\n\n"
-              "<b>✥ Code Design by HACKHEIST 😈</b>"
+              "<b>❀ 𝐀𝐧𝐲 𝐏𝐫𝐨𝐛𝐥𝐞𝐦 𝐂𝐨𝐧𝐭𝐚𝐜𝐭 𝐔𝐬 🥹</b>\n" \
+              "<b>◇ DARK NIGHT - @ContactXBatman_bot</b>\n" \
+              "<b>☆ JACK SPARROW - @Sparrowcosmos_bot</b>\n" \
+              "<b>♛ HACKHEIST - @HACKHEISTBOT</b>\n\n" \
+              "<b>✥ Code Design by HACKHEIST 😈</b>" \
 
     keyboard = [[InlineKeyboardButton(name, callback_data=channel)] for name, channel in channels.items()]
     reply_markup = InlineKeyboardMarkup(keyboard)
