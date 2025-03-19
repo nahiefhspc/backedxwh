@@ -21,7 +21,7 @@ def load_channels():
         with open(CHANNELS_FILE, 'r') as f:
             return json.load(f)
     return {
-        "𝗖𝗹𝗮𝘀𝘀 𝟭𝟭𝘁𝗵|𝗟𝗶𝘃𝗲 🔴": "-1002469887330",
+        "HIDDEN OFFICALS 🔴": "-1002481636110",
     }
 
 # Save channels to file
