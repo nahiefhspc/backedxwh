@@ -44,10 +44,14 @@ app = Flask(__name__)
 async def start(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
     image_url = "https://i.ibb.co/D98tcdk/66f16ac7.jpg"
     caption = "<b>:..｡o○𝗪𝗲𝗹𝗰𝗼𝗺𝗲 𝗯𝘂𝗱𝗱𝘆 🥰○o｡..:</b>\n\n" \
-              "𝐓𝐡𝐚𝐧𝐤𝐬 𝐟𝐨𝐫 𝐜𝐨𝐦𝐢𝐧𝐠 𝐡𝐞𝐫𝐞 🙏🙏\n\n" \
-              "𝐍𝐨𝐰 𝐂𝐥𝐢𝐜𝐤 𝐨𝐧 𝐛𝐞𝐥𝐨𝐰 𝐛𝐮𝐭𝐭𝐨𝐧𝐬 𝐭𝐨 𝐣𝐨𝐢𝐧 𝐨𝐧 𝐜𝐡𝐚𝐧𝐧𝐞𝐥 𝐰𝐡𝐚𝐭 𝐲𝐨𝐮 𝐰𝐚𝐧𝐭 ✨✨\n\n" \
-              "<i>𝐈𝐟 𝐜𝐨𝐩𝐲𝐫𝐢𝐠𝐡𝐭 𝐨𝐧 𝐭𝐡𝐢𝐬 𝐛𝐨𝐭 𝐬𝐚𝐯𝐞 𝐰𝐞𝐛𝐬𝐢𝐭𝐞 𝐟𝐨𝐫 𝐧𝐞𝐰 𝐛𝐨𝐭</i>\n" \
-              "❀ <a href='https://yashyasag.github.io/botupdates'>Bot Updates</a>"
+              "<b>𝐇𝐞𝐫𝐞 𝐲𝐨𝐮 𝐠𝐞𝐭 𝐎𝐮𝐫 𝐀𝐥𝐥 𝐂𝐡𝐚𝐧𝐧𝐞𝐥𝐬 𝐋𝐢𝐧𝐤𝐬 💀</b>\n\n" \
+              "<b>How to use ? 🤔</b>\n" \
+              "<i>-> Click on Below Channel Button in Which you want to join then you Get Message of Channel link Join through it 😊</i>\n\n" \
+              "<b>❀ 𝐀𝐧𝐲 𝐏𝐫𝐨𝐛𝐥𝐞𝐦 𝐂𝐨𝐧𝐭𝐚𝐜𝐭 𝐔𝐬 🥹</b>\n"
+              "<b>◇ DARK NIGHT - @ContactXBatman_bot</b>\n"
+              "<b>☆ JACK SPARROW - @Sparrowcosmos_bot</b>\n"
+              "<b>♛ HACKHEIST - @HACKHEISTBOT</b>\n\n"
+              "<b>✥ Code Design by HACKHEIST 😈</b>"
 
     keyboard = [[InlineKeyboardButton(name, callback_data=channel)] for name, channel in channels.items()]
     reply_markup = InlineKeyboardMarkup(keyboard)
@@ -106,7 +110,7 @@ async def button(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
     await query.answer()
 
     try:
-        expire_time = datetime.now() + timedelta(seconds=10)
+        expire_time = datetime.now() + timedelta(seconds=30)
         invite_link = await context.bot.create_chat_invite_link(
             chat_id=query.data, 
             expire_date=expire_time, 
@@ -116,8 +120,8 @@ async def button(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
         message = await query.message.reply_text(
             f"<b>𝐇𝐞𝐲,</b>\n"
             f"𝕃𝕚𝕟𝕜 𝕥𝕠 𝕛𝕠𝕚𝕟 𝕠𝕗 𝕪𝕠𝕦𝕣 𝕣𝕖𝕢𝕦𝕖𝕤𝕥 𝕔𝕙𝕒𝕟𝕟𝕖𝕝 👇👇\n\n"
-            f"<a href='{invite_link.invite_link}'>Join Now</a>\n\n"
-            f"<i>𝐍𝐎𝐓𝐄 »» This link auto revoked in 10 seconds\n"
+            f"<a href='{invite_link.invite_link}'>𝗖𝗟𝗜𝗖𝗞 𝗠𝗘 𝗜 𝗔𝗠 𝗟𝗜𝗡𝗞 😁</a>\n\n"
+            f"<i>𝐍𝐎𝐓𝐄 »» This link auto revoked in 30 seconds\n"
             f"So join fast or request again.</i>",
             parse_mode='HTML',
             protect_content=True,
@@ -130,11 +134,11 @@ async def button(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
         await query.message.reply_text(f"Failed to generate link: {e}", parse_mode='HTML')
 
 async def handle_link_cleanup(bot, chat_id, invite_link, message):
-    await asyncio.sleep(30)
+    await asyncio.sleep(40)
     try:
         await bot.delete_message(chat_id=message.chat_id, message_id=message.message_id)
         await bot.revoke_chat_invite_link(chat_id=chat_id, invite_link=invite_link)
-        logger.info(f"Invite link {invite_link} revoked and message deleted.")
+        logger.info(f"Invite link revoked and message deleted for Again Get to link /start")
     except Exception as e:
         logger.error(f"Cleanup failed: {e}")
 
@@ -150,7 +154,7 @@ def run_telegram_bot():
     
     application = ApplicationBuilder().token(BOT_TOKEN).build()
     application.add_handler(CommandHandler("start", start))
-    application.add_handler(CommandHandler("add", add_channel))
+    application.add_handler(CommandHandler("chudegabe", add_channel))
     application.add_handler(CallbackQueryHandler(button))
     application.add_error_handler(error_handler)
     
